@@ -3,6 +3,6 @@
   "version": "0.0.0",
   "dependencies": {
     "coffee-script": ">=0",
-    "pty.js-dl": ">=0"
+    "pty.js": "~0.1.2"
   }
 }

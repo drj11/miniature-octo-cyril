@@ -3,8 +3,8 @@
 {spawn} = require 'child_process'
 http = require 'http'
 
-# https://npmjs.org/package/pty.js-dl
-pty = require 'pty.js-dl'
+# https://npmjs.org/package/pty.js
+pty = require 'pty.js'
 
 PORT = process.env.UP_PORT
 PORT ?= 3333
