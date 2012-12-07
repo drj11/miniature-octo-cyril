@@ -16,7 +16,7 @@ if process.env.debug?
 
 # Model Terminal
 class ModelTerminal
-  constructor: (@data) ->
+  constructor: (@data='') ->
 
   recv: (data) ->
     @data += data
