@@ -3,6 +3,9 @@
 {spawn} = require 'child_process'
 http = require 'http'
 
+# https://npmjs.org/package/pty.js-dl
+pty = require 'pty.js-dl'
+
 PORT = process.env.UP_PORT
 PORT ?= 3333
 
@@ -27,20 +30,16 @@ server = http.createServer listen
 server.listen(PORT)
 process.stderr.write "Listening on http://localhost:#{PORT}/\n"
 
-
-child = spawn 'ksh', ['-i']
-child.stdout.on 'data', (data) ->
+master = pty.spawn 'ksh', ['-i']
+master.on 'data', (data) ->
   mt.recv data
   process.stdout.write data
-child.stderr.on 'data', (data) ->
-  mt.recv data
-  process.stderr.write data
 process.stdin.on 'data', (data) ->
-  child.stdin.write data
+  master.write data
 process.stdin.on 'end', ->
   debug -> process.stdout.write '\x1b[33mEND\x1b[m'
-  child.stdin.end()
-child.on 'exit', ->
+  master.end() # :todo: really?
+master.on 'end', ->
   process.stdout.write '\x1b[31mEXIT\x1b[m\n'
   process.exit()
 process.stdin.resume()
